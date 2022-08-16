@@ -18,8 +18,8 @@ class Student(models.Model):
     def get_grade(self):
         if self.average_score < 40:
             return "Fail"
-        elif 40 < self.average_score > 70 :
-            return "pass"
+        elif 40 < self.average_score < 70 :
+            return "Pass"
         elif (self.average_score > 70) :
             return "Excellent"
         
