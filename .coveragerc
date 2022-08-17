@@ -7,6 +7,7 @@ omit =
    *venv/include/*
    *venv/lib/*
    *manage.py
+   *admin.py
    */settings.py
    */local_settings.py
    */tests/*

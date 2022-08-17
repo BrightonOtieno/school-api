@@ -1,8 +1,15 @@
-from re import M, T
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+from django.utils.text import slugify
 from django.db import models
 
 # Create your models here.
-
+def validate_negative(value):
+    if value < 0:
+        raise ValidationError(
+            _("%(value)s is not a positive number"),
+            params = {'value':value}
+        )
 
 
 class Student(models.Model):
@@ -10,21 +17,27 @@ class Student(models.Model):
     last_name = models.CharField(max_length=120)
     admission_number = models.IntegerField(unique=True)
     is_qualified = models.BooleanField(default=False)
-    average_score = models.FloatField(blank=True, null=True)
+    average_score = models.FloatField(blank=True, null=True, validators=[validate_negative])
+    # before saving take the first_name and slugify it to a username
+    username = models.SlugField(blank=True, null=True)
 
     def __str__(self):
         return self.first_name 
     
     def get_grade(self):
-        if self.average_score < 40:
+        if 0 <= self.average_score < 40:
             return "Fail"
-        elif 40 < self.average_score < 70 :
+        elif 40 <= self.average_score < 70 :
             return "Pass"
-        elif (self.average_score > 70) :
+        elif 70 <= self.average_score < 100 :
             return "Excellent"
         
         else:
             return "Error"
+    
+    def save(self,*args,**kwargs):
+        self.username = slugify(self.first_name)
+        super(Student, self).save(*args,**kwargs)
 class Classroom(models.Model):
     name = models.CharField(max_length=120)
     student_capacity = models.IntegerField()
