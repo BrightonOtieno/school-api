@@ -14,8 +14,12 @@ class TestStudent(TestCase):
         ) 
 
     def test_student_can_be_created(self):
+        # with pytest 
+        # assert self.student1.first_name == "John"
 
         self.assertEqual(self.student1.first_name, "John")
+
+
 
         
     def test_str_return_value(self):
@@ -66,7 +70,7 @@ class TestStudent(TestCase):
 
         student_result = Student.objects.last()
 
-        self.assertEquals(student_result.get_grade(), "Excellent")
+        self.assertEqual(student_result.get_grade(), "Excellent")
 
 
 
