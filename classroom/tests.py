@@ -36,7 +36,7 @@ class TestStudent(TestCase):
 
         
     def test_str_return_value(self):
-        student1 = mixer.blend(Student, first_name = 'John')
+        student1 = mixer.blend(Student, first_name = 'John')  
         # self.assertEqual(str(self.student1), "John")
         assert student1.first_name == "John"
 
